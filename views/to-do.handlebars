@@ -1,0 +1,157 @@
+<div class="container-fluid user-page" data-id="{{userID}}">
+    {{#if animation}}
+    <div class="category-div animated slideInLeft">
+        {{else}}
+    <div class="category-div">
+        {{/if}}
+        <div class="category-header">
+          <div class="logo">
+              <div class="user-clock"></div>
+              <h1 class="user-logo-text"><span class="nex">Nex</span>Time</h1>
+          </div>
+          <h3>Welcome <span id="user-name">{{userName}}!</span></h3>
+        </div>
+            
+        <div class="category-body">
+          {{#each categories}}
+            <div class="category-item">
+              <a href="/user/{{../userID}}/category-items/{{this.id}}">
+              <div class="category-icon {{this.type_name}}"><img src="/../img/{{this.type_name}}.svg" class="category-icon-svg">
+              </div>
+              <div class="category-title"><h4>{{this.type}}</h4></div>
+            </a>
+            </div>
+          {{/each}}
+        </div>
+    </div>
+        {{#if animation2}}
+    <div class="list-items-div animated slideInRight">
+        {{else}}
+    <div class="list-items-div">
+        {{/if}}
+        <div class="category-header">
+            <h2>{{currentStatus}}</h2>
+
+            {{#if viewAllItems}}
+            <a href="/user/{{userID}}/to-do"><button class="view-all-btn">View All Items</button></a>
+            {{else}}
+            {{/if}}
+
+        </div>
+        <div class="category-body">
+            <ul>
+                {{#each tasks}}
+
+                <li class="list-item" id="item-{{this.id}}"data-id="{{this.id}}">
+
+                  <span class="this-task">
+                    {{this.task}}
+                  </span>
+
+                  <span class="edit-delete">
+                    <img title="Detail View" alt="Detail View" src="/../img/dots.svg" class="edit-button" data-toggle="modal" data-target="#myEditModal"/>
+                    <img alt="Delete Item" title="Delete Item" src="/../img/delete.svg" class="item-delete" data-id="{{this.id}}"/>
+                  <span>
+
+                </li>
+
+                {{/each}}
+            </ul>
+        <button type="button" class="add-btn" data-toggle="modal" data-target="#myModal">
+          <img src="/../img/plus-circle.svg" class="plus-icon"/><h5>Add New Task</h5>
+        </button>
+
+    </div>
+
+
+
+<!-- New Task Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="form-title" id="myModalLabel">Add New Task</h2>
+        <p id="missing-data" style="color: red;"></p>
+      </div>
+      <div class="modal-body">
+            <form id="addItem" data-id="{{userID}}">
+                <div class="form-group">
+                    <label for="task">Task Name:</label>
+                    <input type="text" class="form-control modal-form" id="task">
+                    <label for="category">Select Category:</label>
+                    <select class="form-control modal-form" id="category">
+                        <option value="" selected>Choose one...</option>
+                        {{#each allCategories}}
+                        <option value="{{this.id}}">{{this.type}}</option>
+                        {{/each}}
+                    </select>
+                    <label for="body">Notes</label>
+                    <textarea class="form-control modal-form" rows="10" id="body"></textarea>
+                </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-lg btn-block submit" id= "add-item" data-dismiss="">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update/Edit Modal -->
+<div class="modal fade" id="myEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h2 class="form-title" id="myModalLabel">Update Current Task</h2>
+        <p id="missing-edit-data" style="color: red;"></p>
+      </div>
+      <div class="modal-body">
+            <form id="addItem">
+                <div class="form-group">
+                    <label for="task">Task Name:</label>
+                    <input type="text" class="form-control modal-form" id="task-edit">
+                    <label for="category">Select Category:</label>
+                    <select class="form-control modal-form" id="category-edit">
+                        <option value="">Choose one...</option>
+                        {{#each allCategories}}
+                        <option value="{{this.id}}">{{this.type}}</option>
+                        {{/each}}
+                    </select>
+                    <label for="body">Notes</label>
+                    <textarea class="form-control modal-form" rows="10" id="body-edit"></textarea>
+                </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-lg btn-block submit" id= "update-item" data-dismiss="">Update</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Result Modal -->
+<div class="modal fade" id="myResultModal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="gridSystemModalLabel">Nearby Places</h3>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-lg btn-block submit" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+</div>
